@@ -1,0 +1,118 @@
+//bridge-file-version: #20
+{
+	"resource_pack_name": "MazeworldRP",
+	"texture_name": "atlas.items",
+	"texture_data": {
+		"mw:reaper_scythe": {
+			"textures": "textures/items/reaper_scythe"
+		},
+		"mw:emerald_sword": {
+			"textures": "textures/items/emerald_sword"
+		},
+		"mw:the_nunchucks_of_haste": {
+			"textures": "textures/items/the_nunchucks_of_haste"
+		},
+		"mw:emerald_boots": {
+			"textures": "textures/items/emerald_boots"
+		},
+		"mw:emerald_leggings": {
+			"textures": "textures/items/emerald_leggings"
+		},
+		"mw:emerald_chestplate": {
+			"textures": "textures/items/emerald_chestplate"
+		},
+		"mw:emerald_helmet": {
+			"textures": "textures/items/emerald_helmet"
+		},
+		"mw:warden_helmet": {
+			"textures": "textures/items/warden_helmet"
+		},
+		"mw:warden_chestplate": {
+			"textures": "textures/items/warden_chestplate"
+		},
+		"mw:warden_leggings": {
+			"textures": "textures/items/warden_leggings"
+		},
+		"mw:warden_boots": {
+			"textures": "textures/items/warden_boots"
+		},
+		"mw:fire_axe": {
+			"textures": "textures/items/fire_axe"
+		},
+		"mw:ice_katana": {
+			"textures": "textures/items/ice_katana"
+		},
+		"mw:iron_katana": {
+			"textures": "textures/items/iron_katana"
+		},
+		"mw:samurai_helmet": {
+			"textures": "textures/items/samurai_helmet"
+		},
+		"mw:samurai_chestplate": {
+			"textures": "textures/items/samurai_chestplate"
+		},
+		"mw:samurai_leggings": {
+			"textures": "textures/items/samurai_leggings"
+		},
+		"mw:samurai_boots": {
+			"textures": "textures/items/samurai_boots"
+		},
+		"mw:clown_helmet": {
+			"textures": "textures/items/clown_helmet"
+		},
+		"mw:clown_chestplate": {
+			"textures": "textures/items/clown_chestplate"
+		},
+		"mw:clown_leggings": {
+			"textures": "textures/items/clown_leggings"
+		},
+		"mw:clown_boots": {
+			"textures": "textures/items/clown_boots"
+		},
+		"mw:firefighter_helmet": {
+			"textures": "textures/items/firefighter_helmet"
+		},
+		"mw:firefighter_chestplate": {
+			"textures": "textures/items/firefighter_chestplate"
+		},
+		"mw:firefighter_leggings": {
+			"textures": "textures/items/firefighter_leggings"
+		},
+		"mw:firefighter_boots": {
+			"textures": "textures/items/firefighter_boots"
+		},
+		"mw:balloon": {
+			"textures": "textures/items/balloon"
+		},
+		"mw:fur_helmet": {
+			"textures": "textures/items/fur_helmet"
+		},
+		"mw:fur_chestplate": {
+			"textures": "textures/items/fur_chestplate"
+		},
+		"mw:fur_leggings": {
+			"textures": "textures/items/fur_leggings"
+		},
+		"mw:fur_boots": {
+			"textures": "textures/items/fur_boots"
+		},
+		"mw:reaper_helmet": {
+			"textures": "textures/items/reaper_helmet"
+		},
+		"mw:reaper_chestplate": {
+			"textures": "textures/items/reaper_chestplate"
+		},
+		"mw:reaper_leggings": {
+			"textures": "textures/items/reaper_leggings"
+		},
+		"mw:reaper_boots": {
+			"textures": "textures/items/reaper_boots"
+		},
+		"mw:glock": {
+			"textures": "textures/items/glock"
+		},
+		"mw:bullet": {
+			"textures": "textures/items/bullet"
+		}
+	}
+}

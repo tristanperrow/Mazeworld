@@ -1,0 +1,35 @@
+//bridge-file-version: #1
+{
+	"format_version": "1.20.20",
+	"minecraft:item": {
+		"description": {
+			"identifier": "mw:samurai_helmet",
+			"category": "equipment"
+		},
+		"components": {
+			"minecraft:max_stack_size": 1,
+			"minecraft:enchantable": {
+				"value": 15,
+				"slot": "armor_head"
+			},
+			"minecraft:durability": {
+				"max_durability": 170,
+				"damage_chance": {
+					"min": 60,
+					"max": 100
+				}
+			},
+			"minecraft:icon": {
+				"texture": "mw:samurai_helmet"
+			},
+			"minecraft:wearable": {
+				"slot": "slot.armor.head",
+				"protection": 3
+			},
+			"minecraft:display_name": {
+				"value": "Samurai Helmet"
+			}
+		},
+		"events": {}
+	}
+}

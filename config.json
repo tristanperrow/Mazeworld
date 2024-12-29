@@ -1,0 +1,46 @@
+{
+	"type": "minecraftBedrock",
+	"name": "Mazeworld",
+	"namespace": "bridge",
+	"authors": [
+		"Bongiovi ROCKS"
+	],
+	"targetVersion": "1.21.40",
+	"description": "Custom packs for maze generation, item & loot table use in Bongiovi ROCKS's Mazeworld",
+	"experimentalGameplay": {
+		"creationOfCustomBiomes": false,
+		"upcomingCreatorFeatures": false,
+		"enableGameTestFramework": false,
+		"focusTargetCamera": false,
+		"dataDrivenJigsawStructures": false,
+		"aimAssist": false,
+		"educationEdition": false
+	},
+	"bdsProject": false,
+	"packs": {
+		"behaviorPack": "./BP",
+		"resourcePack": "./RP"
+	},
+	"worlds": [
+		"./worlds/*"
+	],
+	"compiler": {
+		"plugins": [
+			"generatorScripts",
+			"typeScript",
+			"entityIdentifierAlias",
+			"customEntityComponents",
+			"customItemComponents",
+			"customBlockComponents",
+			"customCommands",
+			"moLang",
+			"formatVersionCorrection",
+			[
+				"simpleRewrite",
+				{
+					"packName": "Mazeworld"
+				}
+			]
+		]
+	}
+}
