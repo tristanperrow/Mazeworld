@@ -1,0 +1,69 @@
+0.9, 12/15/15:
+created maze with empty chests
+
+1.0, 5/14/16:
+first mazeworld in Minecraft Xbox one edition
+filled chests of empty world
+
+2.0, 6/4/16:
+added second floor
+
+3.0, ~9/1/22:
+recreated with command blocks on PC
+
+3.1, 9/28/22:
+added semi-random loot (select 1 of 5 options for each chest spawn each game)
+
+3.2, 5/1/24:
+improved semi-random loot (drop 1 out of 9 random items from each of 6 droppers into a chest that gets copied into the maze)
+
+4.0, 5/3/24:
+procedurally generate 90x90 maze
+
+4.0.X, 5/19/24:
+add different parkour towers to each section of the maze
+
+4.1, 5/20/24:
+procedurally generate a 179x179 maze which can be copied from the queue and used while a new maze is generated in its place. Also randomly select towers for each section.
+
+4.2.0, 5/26/24:
+implement loot table behavior pack for truly random loot. Using minecart chests to be able to tag them for easy filling (as I write this, not sure this is necessary anymore..?)
+
+4.2.1, 6/2/24:
+added custom armor, glock, and other custom weapons
+
+4.2.2, 6/10/24:
+made the world realm-compatible and added to realm (consolidated buttons and spawn under maze, separated background blocks, added check for players rejoining with loot from previous game, fixed command block outputs popping up when rejoining realm, display current alive players on side)
+
+4.2.3, 6/11/24:
+added death screen
+
+4.3.0, 6/11/24:
+added second smaller maze for faster games, moved spawn selection to bottom
+
+4.3.1, 6/13/24:
+added water zone option
+
+4.3.2, 6/13/24:
+added win leaderboard, updated Glock for 1.21 update
+
+5.0.0, 12/12/24:
+Tranferred maze generation from command blocks to scripting.
+
+5.0.1, 12/12/24:
+increment version number to separate from beta in realm's eyes
+
+5.0.2, 12/15/24:
+added jungle, mooshroom, and desert towers to hardcoded tower chest loot script. Also added boxing center.
+
+5.0.3, 12/17/24:
+stop storm from outputting to screen after full maze is filled
+
+5.0.4, 12/20/24:
+fixes effects to correct values using "amplifier" (previously, setting "resistance" to "2" in the script would give resistance 3.)
+added this version history log.
+reformatted todo list in Mazeworld.ts
+added upside down tower to hardcoded chest locations
+
+5.0.5:
+added pale center chest to hard code locations

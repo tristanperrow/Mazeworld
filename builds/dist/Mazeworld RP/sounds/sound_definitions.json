@@ -1,0 +1,12 @@
+{
+	"format_version": "1.20.60",
+	"sound_definitions": {
+		"mw.glock": {
+			"category": "neutral",
+			"sounds": [
+				"sounds/glock"
+			],
+			"max_distance": 32
+		}
+	}
+}

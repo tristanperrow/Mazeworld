@@ -1,0 +1,53 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"Bongiovi ROCKS",
+			"nanopoison"
+		],
+		"generated_with": {
+			"bridge": [
+				"2.7.42"
+			],
+			"dash": [
+				"0.11.7"
+			]
+		}
+	},
+	"header": {
+		"name": "Mazeworld",
+		"description": "Custom packs for maze generation, item & loot table use in Bongiovi ROCKS's Mazeworld",
+		"min_engine_version": [
+			1,
+			21,
+			0
+		],
+		"uuid": "2894ac71-4e39-4682-bd96-9baba8dd5c11",
+		"version": [
+			5,
+			0,
+			4
+		]
+	},
+	"modules": [
+		{
+			"type": "resources",
+			"uuid": "366b6800-3b75-4e36-af5d-e25be5775b4d",
+			"version": [
+				5,
+				0,
+				4
+			]
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "2fef0a03-c2da-4fe8-9729-cadca99e5343",
+			"version": [
+				5,
+				0,
+				4
+			]
+		}
+	]
+}
