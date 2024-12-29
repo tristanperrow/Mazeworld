@@ -51,20 +51,21 @@ export class Vec3 {
      */
     add(arg1?: number, arg2?: number, arg3?: number): Vec3;
     add(arg1: Vec3 | number, arg2?: number, arg3?: number): Vec3 {
+        let newVec = vec3(this.x, this.y, this.z);
         if (arg1 instanceof Vec3) {
             // Add another Vec3 to this vector
-            this.x += arg1.x;
-            this.y += arg1.y;
-            this.z += arg1.z;
+            newVec.x += arg1.x;
+            newVec.y += arg1.y;
+            newVec.z += arg1.z;
         } else if (typeof arg1 === "number" && typeof arg2 === "number" && typeof arg3 === "number") {
             // Add x, y, z values to this vector
-            this.x += arg1;
-            this.y += arg2;
-            this.z += arg3;
+            newVec.x += arg1;
+            newVec.y += arg2;
+            newVec.z += arg3;
         } else {
             throw new Error("Invalid arguments passed to Vec3.add");
         }
-        return this;
+        return newVec;
     }
 
     /**
@@ -84,20 +85,21 @@ export class Vec3 {
      */
     sub(arg1?: number, arg2?: number, arg3?: number): Vec3;
     sub(arg1: Vec3 | number, arg2?: number, arg3?: number): Vec3 {
+        let newVec = vec3(this.x, this.y, this.z);
         if (arg1 instanceof Vec3) {
             // Subtract this vector by another Vec3
-            this.x -= arg1.x;
-            this.y -= arg1.y;
-            this.z -= arg1.z;
+            newVec.x -= arg1.x;
+            newVec.y -= arg1.y;
+            newVec.z -= arg1.z;
         } else if (typeof arg1 === "number" && typeof arg2 === "number" && typeof arg3 === "number") {
             // Subtract x, y, z values from this vector
-            this.x -= arg1;
-            this.y -= arg2;
-            this.z -= arg3;
+            newVec.x -= arg1;
+            newVec.y -= arg2;
+            newVec.z -= arg3;
         } else {
             throw new Error("Invalid arguments passed to Vec3.subtract");
         }
-        return this;
+        return newVec;
     }
 
     /**
@@ -124,25 +126,26 @@ export class Vec3 {
      */
     scale(arg1?: number, arg2?: number, arg3?: number): Vec3;
     scale(arg1: Vec3 | number, arg2?: number, arg3?: number): Vec3 {
+        let newVec = vec3(this.x, this.y, this.z);
         if (arg1 instanceof Vec3) {
             // Scale this vector by another Vec3
-            this.x *= arg1.x;
-            this.y *= arg1.y;
-            this.z *= arg1.z;
+            newVec.x *= arg1.x;
+            newVec.y *= arg1.y;
+            newVec.z *= arg1.z;
         } else if (typeof arg1 === "number" && !arg2) {
             // Scale this vector by a scalar
-            this.x *= arg1;
-            this.y *= arg1;
-            this.z *= arg1;
+            newVec.x *= arg1;
+            newVec.y *= arg1;
+            newVec.z *= arg1;
         } else if (typeof arg1 === "number" && typeof arg2 === "number" && typeof arg3 === "number") {
             // Scale this vector by x, y, z values
-            this.x *= arg1;
-            this.y *= arg2;
-            this.z *= arg3;
+            newVec.x *= arg1;
+            newVec.y *= arg2;
+            newVec.z *= arg3;
         } else {
             throw new Error("Invalid arguments passed to Vec3.scale");
         }
-        return this;
+        return newVec;
     }
 
 
@@ -225,7 +228,7 @@ export class BBox {
      * @returns The half size of the bounding box.
      */
     halfSize(): Vec3 {
-        return new Vec3(this.size.x, this.size.y, this.size.z).scale(0.5);
+        return this.size.scale(0.5);
     }
 
 }

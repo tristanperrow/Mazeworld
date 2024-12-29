@@ -1,4 +1,4 @@
-	/* Maze Generation Module */
+/* Maze Generation Module */
 
 import * as server from "@minecraft/server"
 import { BBox, bbox, Vec3, vec3, clamp } from "./math"
@@ -81,7 +81,7 @@ export let WORLD_SPAWNS = [
 ];
 
 /** Origin of the maze in the world. */
-let origin = { x: 0, y: 16, z: 0 };
+let origin = vec3(0, 16, 0);
 
 /** Dimensions of the in-game small towers. */
 let smallTowerDimensions = { x: 11, y: 26, z: 11 };
