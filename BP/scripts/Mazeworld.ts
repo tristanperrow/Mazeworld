@@ -92,7 +92,6 @@ function resetMazeSize(): number {
         return -1;
     }
     mazeGenerationOptions.mazeSize = 123;
-    server.world.sendMessage(`Maze Size - ${mazeGenerationOptions.mazeSize}`);
     return mazeGenerationOptions.mazeSize;
 }
 
@@ -141,7 +140,6 @@ function resetPlayerCount(): number {
     if (mazeGenerationOptions.playerCount < 2) {
         mazeGenerationOptions.playerCount = 2;
     }
-    server.world.sendMessage(`Player Count - ${mazeGenerationOptions.playerCount}`);
     return mazeGenerationOptions.playerCount;
 }
 
