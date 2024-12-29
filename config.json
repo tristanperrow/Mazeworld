@@ -3,7 +3,8 @@
 	"name": "Mazeworld",
 	"namespace": "bridge",
 	"authors": [
-		"Bongiovi ROCKS"
+		"Bongiovi ROCKS",
+		"Nanopoison"
 	],
 	"targetVersion": "1.21.40",
 	"description": "Custom packs for maze generation, item & loot table use in Bongiovi ROCKS's Mazeworld",
