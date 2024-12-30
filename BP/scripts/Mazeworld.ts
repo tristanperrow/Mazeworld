@@ -377,7 +377,7 @@ function tryGameOver(): boolean {
     })
 
     // game is over if only one person is left alive.
-    if (numPlayersRemaining <= 0) {
+    if (numPlayersRemaining <= 1) {
         // teleport all participants back to spawn
         currentPlayers.forEach((plr) => {
             // teleport player to world spawn
