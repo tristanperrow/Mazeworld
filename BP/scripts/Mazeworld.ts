@@ -396,6 +396,8 @@ function tryGameOver(): boolean {
         server.world.scoreboard.removeObjective("currentgame");
         // reset water zone
         setStormCount(0);
+        // remove all currentPlayers
+        currentPlayers.clear();
 
         return true;
     }
