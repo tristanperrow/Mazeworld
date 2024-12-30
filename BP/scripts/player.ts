@@ -81,6 +81,9 @@ export class PlayerUtils {
 
     /* HELPER FUNCTIONS */
 
+    /**
+     * Displays text to the action bar for the players given.
+     */
     static DisplayTextToPlayers(players: Map<String, server.Player> | server.Player[], text: string) {
         if (players instanceof Map) {
             players.forEach((v, k) => {
@@ -91,6 +94,69 @@ export class PlayerUtils {
                 players[i].onScreenDisplay.setActionBar(text);
             }
         }
+    }
+
+    /**
+     * Clears the inventory of the given player.
+     * 
+     * @param player The player whose inventory to clear.
+     */
+    static ClearInventory(player: server.Player) {
+        let plrInv = player.getComponent(server.EntityComponentTypes.Inventory) as server.EntityInventoryComponent;
+        let plrEqp = player.getComponent(server.EntityComponentTypes.Equippable) as server.EntityEquippableComponent;
+
+        // clear inventory
+        plrInv.container.clearAll();
+        // clear equipment
+        plrEqp.setEquipment(server.EquipmentSlot.Head, new server.ItemStack("minecraft:air"));
+        plrEqp.setEquipment(server.EquipmentSlot.Chest, new server.ItemStack("minecraft:air"));
+        plrEqp.setEquipment(server.EquipmentSlot.Legs, new server.ItemStack("minecraft:air"));
+        plrEqp.setEquipment(server.EquipmentSlot.Feet, new server.ItemStack("minecraft:air"));
+        plrEqp.setEquipment(server.EquipmentSlot.Offhand, new server.ItemStack("minecraft:air"));
+    }
+
+    /**
+     * Toggle if a player is ready or not
+     * 
+     * @param player The player to update their status.
+     */
+    static TogglePlayerReady(player: server.Player) {
+        let currStatus = player.hasTag("ready");
+        if (!currStatus) {
+            player.addTag("ready");
+            player.onScreenDisplay.setActionBar(`You are ready to play!`)
+        } else {
+            player.removeTag("ready")
+            player.onScreenDisplay.setActionBar(`You are no longer ready.`)
+        }
+    }
+
+    /**
+     * Changes the ready status of a player.
+     * 
+     * @param player The player to update their status.
+     * @param ready The status to change to.
+     */
+    static SetPlayerReady(player: server.Player, ready: boolean = false) {
+        let currStatus = player.hasTag("ready");
+        if ((currStatus && ready) || (!currStatus && !ready)) {
+            // Not changing status, don't send a message
+        } else if (currStatus && !ready) {
+            // No longer ready, send a message
+            player.onScreenDisplay.setActionBar(`You are no longer ready.`);
+        } else if (!currStatus && ready) {
+            // Is now ready, send a message
+            player.onScreenDisplay.setActionBar(`You are ready to play!`);
+        }
+    }
+
+    /**
+     * Gets all ready players in the world
+     * 
+     * @returns A list of all ready players
+     */
+    static GetReadyPlayers() {
+        return server.world.getPlayers({ tags: ["ready"] });
     }
 
 }

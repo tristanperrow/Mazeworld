@@ -79,7 +79,7 @@ function updateMazeSize(event: server.ScriptEventCommandMessageAfterEvent | stri
         console.warn(`updateMazeSize requires an integer parameter`);
         return;
     }
-    let adjMinMazeSize = (getReadyPlayers().length > Math.floor(MazeGeneration.minMazeSize / 10)) ? getReadyPlayers().length * 10 + 1 : MazeGeneration.minMazeSize;
+    let adjMinMazeSize = (PlayerUtils.GetReadyPlayers().length > Math.floor(MazeGeneration.minMazeSize / 10)) ? PlayerUtils.GetReadyPlayers().length * 10 + 1 : MazeGeneration.minMazeSize;
     mazeGenerationOptions.mazeSize = clamp(mazeGenerationOptions.mazeSize + num, adjMinMazeSize, MazeGeneration.maxMazeSize);
     return mazeGenerationOptions.mazeSize;
 }
@@ -122,7 +122,7 @@ function updatePlayerCount(event: server.ScriptEventCommandMessageAfterEvent | s
         console.warn(`updatePlayerCount requires an integer parameter`);
         return;
     }
-    mazeGenerationOptions.playerCount = clamp(mazeGenerationOptions.playerCount + num, getReadyPlayers().length, Math.floor(mazeGenerationOptions.mazeSize / 10));
+    mazeGenerationOptions.playerCount = clamp(mazeGenerationOptions.playerCount + num, PlayerUtils.GetReadyPlayers().length, Math.floor(mazeGenerationOptions.mazeSize / 10));
     if (mazeGenerationOptions.playerCount < 2) {
         mazeGenerationOptions.playerCount = 2;
     }
@@ -144,50 +144,6 @@ function resetPlayerCount(): number {
         mazeGenerationOptions.playerCount = 2;
     }
     return mazeGenerationOptions.playerCount;
-}
-
-/**
- * Toggle if a player is ready or not
- * 
- * @param player The player to update their status.
- */
-function togglePlayerReady(player: server.Player) {
-    let currStatus = player.hasTag("ready");
-    if (!currStatus) {
-        player.addTag("ready");
-        player.onScreenDisplay.setActionBar(`You are ready to play!`)
-    } else {
-        player.removeTag("ready")
-        player.onScreenDisplay.setActionBar(`You are no longer ready.`)
-    }
-}
-
-/**
- * Changes the ready status of a player.
- * 
- * @param player The player to update their status.
- * @param ready The status to change to.
- */
-function setPlayerReady(player: server.Player, ready: boolean = false) {
-    let currStatus = player.hasTag("ready");
-    if ((currStatus && ready) || (!currStatus && !ready)) {
-        // Not changing status, don't send a message
-    } else if (currStatus && !ready) {
-        // No longer ready, send a message
-        player.onScreenDisplay.setActionBar(`You are no longer ready.`);
-    } else if (!currStatus && ready) {
-        // Is now ready, send a message
-        player.onScreenDisplay.setActionBar(`You are ready to play!`);
-    }
-}
-
-/**
- * Gets all ready players in the world
- * 
- * @returns A list of all ready players
- */
-function getReadyPlayers() {
-    return server.world.getPlayers({ tags: ["ready"] });
 }
 
 /**
@@ -252,23 +208,6 @@ function stormNextTime(count: number) {
     if (count > 31)
         count = 31;
     return Math.floor((stormStartTime() / (count + 1))) + stormNextTime(count - 1);
-}
-
-/**
- * Clears the inventory of a player
- */
-function clearInventory(player: server.Player) {
-    let plrInv = player.getComponent(server.EntityComponentTypes.Inventory) as server.EntityInventoryComponent;
-    let plrEqp = player.getComponent(server.EntityComponentTypes.Equippable) as server.EntityEquippableComponent;
-
-    // clear inventory
-    plrInv.container.clearAll();
-    // clear equipment
-    plrEqp.setEquipment(server.EquipmentSlot.Head, new server.ItemStack("minecraft:air"));
-    plrEqp.setEquipment(server.EquipmentSlot.Chest, new server.ItemStack("minecraft:air"));
-    plrEqp.setEquipment(server.EquipmentSlot.Legs, new server.ItemStack("minecraft:air"));
-    plrEqp.setEquipment(server.EquipmentSlot.Feet, new server.ItemStack("minecraft:air"));
-    plrEqp.setEquipment(server.EquipmentSlot.Offhand, new server.ItemStack("minecraft:air"));
 }
 
 /**
@@ -340,7 +279,7 @@ async function startGame() {
     // initialize timer
     dim.runCommand(`scoreboard players add Time currentgame 0`);
     // tp to maze
-    let playerList = getReadyPlayers();
+    let playerList = PlayerUtils.GetReadyPlayers();
     for (const curPlayer of playerList) {
         currentPlayers.set(curPlayer.name, curPlayer);
     }
@@ -355,7 +294,7 @@ async function startGame() {
         player.camera.setCamera("minecraft:first_person");          // set first person
         player.addLevels(-100)                                      // remove xp
         player.setGameMode(server.GameMode.adventure);              // set adventure
-        clearInventory(player)                                      // clear inventory
+        PlayerUtils.ClearInventory(player)                                      // clear inventory
 
         server.world.scoreboard.getObjective("currentgame").setScore(player, 1);
 
@@ -387,7 +326,7 @@ function tryGameOver(): boolean {
             // get rid of the camera lock
             plr.camera.clear();
             // clear the inventory of the player
-            clearInventory(plr);
+            PlayerUtils.ClearInventory(plr);
             // add win to player if they won
             if (remainingPlayer.name == plr.name)
                 PlayerUtils.AddWin(plr);
@@ -529,11 +468,11 @@ server.system.afterEvents.scriptEventReceive.subscribe((event) => {
             server.world.sendMessage(`Player Count - ${mazeGenerationOptions.playerCount}`);
     } else if (event.id === "mw:togglePlayerReady") {
         let player = event.sourceEntity as server.Player;
-        togglePlayerReady(player);
+        PlayerUtils.TogglePlayerReady(player);
     } else if (event.id === "mw:setPlayerReady") {
         let newStatus = (event.message == "true") ? true : false;
         let player = event.sourceEntity as server.Player;
-        setPlayerReady(player, newStatus);
+        PlayerUtils.SetPlayerReady(player, newStatus);
     } else if (event.id === "mw:settings") {
         if (args.length == 1 && args[0] == "help") {
             server.world.sendMessage("Settings:");
