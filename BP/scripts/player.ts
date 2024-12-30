@@ -81,10 +81,16 @@ export class PlayerUtils {
 
     /* HELPER FUNCTIONS */
 
-    static DisplayTextToPlayers(players: Map<String, server.Player>, text: string) {
-        players.forEach((v, k) => {
-            v.onScreenDisplay.setActionBar(text);
-        })
+    static DisplayTextToPlayers(players: Map<String, server.Player> | server.Player[], text: string) {
+        if (players instanceof Map) {
+            players.forEach((v, k) => {
+                v.onScreenDisplay.setActionBar(text);
+            })
+        } else {
+            for (let i = 0; i < players.length; i++) {
+                players[i].onScreenDisplay.setActionBar(text);
+            }
+        }
     }
 
 }

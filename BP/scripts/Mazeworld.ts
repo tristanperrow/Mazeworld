@@ -13,6 +13,8 @@ import { PlayerUtils, PlayerStatType } from "./player"
 
 let TPS = 20;
 
+let debug = false;
+
 /** To work with main.js (idk why having one export makes this all work) */
 export let dim = server.world.getDimension("overworld");
 
@@ -377,7 +379,7 @@ function tryGameOver(): boolean {
     })
 
     // game is over if only one person is left alive.
-    if (numPlayersRemaining <= 1) {
+    if ((numPlayersRemaining <= 1 && !debug) || (numPlayersRemaining <= 0 && debug)) {
         // teleport all participants back to spawn
         currentPlayers.forEach((plr) => {
             // teleport player to world spawn
@@ -567,6 +569,9 @@ server.system.afterEvents.scriptEventReceive.subscribe((event) => {
         server.world.sendMessage(`Set ${setting} to ${option}`);
     } else if (event.id === "mw:test") {
         server.world.sendMessage(`test 5.0.4`);
+    } else if (event.id === "mw:debug") {
+        debug = !debug;
+        PlayerUtils.DisplayTextToPlayers(server.world.getPlayers(), `${debug}`);
     } else if (event.id === "mw:leaderTest") {
         let ldb = PlayerUtils.GetSpecificLeaderboard(server.world.getPlayers(), PlayerStatType.wins)
         server.world.sendMessage(`${PlayerStatType.wins} leaderboard`);
