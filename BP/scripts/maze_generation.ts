@@ -533,134 +533,31 @@ async function placeTower(x: number, z: number, tower: string, towerDifficulty: 
     let startX = x - halfX;
     let startZ = z - halfZ;
 
+    let startPos = vec3(startX, origin.y - 9, startZ);
+
     let towerNum = 0;
-    if (tower == "small" && towerDifficulty == "easy") {
-        towerNum = Math.floor(Math.random() * WORLD_TOWERS.small.easy.length);
-        server.world.structureManager.place(WORLD_TOWERS.small.easy[towerNum], dim, { x: startX, y: origin.y - 9, z: startZ }, {});
-        if (WORLD_TOWERS.small.easy[towerNum] == 'easy:book_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 1, y: origin.y - 9 + 23, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:end_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 1, y: origin.y - 9 + 25, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:ethereal_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 20, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:Kenny_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 1, y: origin.y - 9 + 23, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:mining_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 9, y: origin.y - 9 + 22, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:spruce_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 24, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:mooshroom_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 23, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:desert_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 25, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.easy[towerNum] == 'easy:upside_down_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 4, y: origin.y - 9 + 25, z: startZ + 6 });
-        }
-        CURRENT_TOWERS.push(
-            bbox(
-                vec3(x, origin.y - 9 + smallTowerDimensions.y / 2, z),
-                vec3(smallTowerDimensions.x, smallTowerDimensions.y, smallTowerDimensions.z)
-            )
-        );
-    } else if (tower == "small" && towerDifficulty == "hard") {
-        towerNum = Math.floor(Math.random() * WORLD_TOWERS.small.hard.length);
-        server.world.structureManager.place(WORLD_TOWERS.small.hard[towerNum], dim, { x: startX, y: origin.y - 9, z: startZ }, {});
-        if (WORLD_TOWERS.small.hard[towerNum] == 'hard:amethyst_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 9, y: origin.y - 9 + 24, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:nether_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 25, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:ice_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 9, y: origin.y - 9 + 22, z: startZ + 9 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:slime_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 24, z: startZ + 9 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:Spencer_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 23, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:warden_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 4, y: origin.y - 9 + 24, z: startZ + 9 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:water_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 25, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:jungle_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 23, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.hard[towerNum] == 'hard:cherry_blossom_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 22, z: startZ + 5 });
-        }
-        CURRENT_TOWERS.push(
-            bbox(
-                vec3(x, origin.y - 9 + smallTowerDimensions.y / 2, z),
-                vec3(smallTowerDimensions.x, smallTowerDimensions.y, smallTowerDimensions.z)
-            )
-        );
-    } else if (tower == "small" && towerDifficulty == "both") {
-        towerNum = Math.floor(Math.random() * WORLD_TOWERS.small.both.length);
-        server.world.structureManager.place(WORLD_TOWERS.small.both[towerNum], dim, { x: startX, y: origin.y - 9, z: startZ }, {});
-        if (WORLD_TOWERS.small.both[towerNum] == 'hard:amethyst_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 9, y: origin.y - 9 + 24, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:nether_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 25, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:ice_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 9, y: origin.y - 9 + 22, z: startZ + 9 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:slime_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 24, z: startZ + 9 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:Spencer_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 23, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:warden_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 4, y: origin.y - 9 + 24, z: startZ + 9 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:water_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 25, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:jungle_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 23, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'hard:cherry_blossom_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 22, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:book_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 1, y: origin.y - 9 + 23, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:end_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 1, y: origin.y - 9 + 25, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:ethereal_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 20, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:Kenny_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 1, y: origin.y - 9 + 23, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:mining_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 9, y: origin.y - 9 + 22, z: startZ + 1 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:spruce_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 24, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:mooshroom_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 23, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:desert_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 5, y: origin.y - 9 + 25, z: startZ + 5 });
-        } else if (WORLD_TOWERS.small.both[towerNum] == 'easy:upside_down_tower1') {
-            CURRENT_CHESTS.SMALL_TOWER_CHESTS.push({ x: startX + 4, y: origin.y - 9 + 25, z: startZ + 6 });
-        }
-        CURRENT_TOWERS.push(
-            bbox(
-                vec3(x, origin.y - 9 + smallTowerDimensions.y / 2, z),
-                vec3(smallTowerDimensions.x, smallTowerDimensions.y, smallTowerDimensions.z)
-            )
-        );
+
+    if (tower == "small") {
+        towerNum = Math.floor(Math.random() * WORLD_TOWERS[tower][towerDifficulty].length);
+        server.world.structureManager.place(WORLD_TOWERS[tower][towerDifficulty][towerNum], dim, startPos, {});
+        await findTowerChest(dimensions, startPos).then((loc) => {
+            if (!loc) return;
+            CURRENT_CHESTS[`SMALL_TOWER_CHESTS`].push(loc);
+        })
     } else {
-        towerNum = Math.floor(Math.random() * WORLD_TOWERS.large.length);
-        server.world.structureManager.place(WORLD_TOWERS.large[towerNum], dim, { x: startX, y: origin.y - 9, z: startZ }, {});
-        if (WORLD_TOWERS.large[towerNum] == 'mw:pirate_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 16, y: origin.y - 9 + 6, z: startZ + 16 };
-        } else if (WORLD_TOWERS.large[towerNum] == 'mw:end_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 11, y: origin.y - 9 + 34, z: startZ + 16 };
-        } else if (WORLD_TOWERS.large[towerNum] == 'mw:nether_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 18, y: origin.y - 9 + 32, z: startZ + 17 };
-        } else if (WORLD_TOWERS.large[towerNum] == 'mw:overworld_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 15, y: origin.y - 9 + 30, z: startZ + 15 };
-        } else if (WORLD_TOWERS.large[towerNum] == 'mw:tribal_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 15, y: origin.y - 9 + 23, z: startZ + 15 };
-        } else if (WORLD_TOWERS.large[towerNum] == 'mw:boxing_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 15, y: origin.y - 9 + 32, z: startZ + 15 };
-        } else if (WORLD_TOWERS.large[towerNum] == 'mw:pale_center1') {
-            CURRENT_CHESTS.LARGE_TOWER_CHESTS[0] = { x: startX + 17, y: origin.y - 9 + 32, z: startZ + 15 };
-        }
-        CURRENT_TOWERS.push(
-            bbox(
-                vec3(x, origin.y - 9 + largeTowerDimensions.y / 2, z),
-                vec3(largeTowerDimensions.x, largeTowerDimensions.y, largeTowerDimensions.z)
-            )
-        );
+        towerNum = Math.floor(Math.random() * WORLD_TOWERS[tower].length);
+        server.world.structureManager.place(WORLD_TOWERS[tower][towerNum], dim, startPos, {});
+        await findTowerChest(dimensions, startPos).then((loc) => {
+            if (!loc) return;
+            CURRENT_CHESTS[`LARGE_TOWER_CHESTS`].push(loc);
+        })
     }
+    CURRENT_TOWERS.push(
+        bbox(
+            startPos.add(0, dimensions.y / 2, 0),
+            vec3(dimensions.x, dimensions.y, dimensions.z)
+        )
+    )
 }
 
 /** 
@@ -686,6 +583,31 @@ function placeChest(x: number, z: number, px: number, pz: number): void {
     chest.setPermutation(server.BlockPermutation.resolve("minecraft:chest", { "minecraft:cardinal_direction": facing }));
 
     CURRENT_CHESTS.MAZE_CHESTS.push(chestLoc);
+}
+
+/**
+ * Finds the chest inside of a tower
+ * 
+ * @param dimensions The dimensions of the tower
+ * @param origin The origin of the tower
+ * 
+ * @returns The location of the chest.
+ */
+async function findTowerChest(dimensions: Vec3, origin: Vec3) {
+    for (let x = 0; x < dimensions.x; x++) {
+        for (let y = 0; y < dimensions.y; y++) {
+            for (let z = 0; z < dimensions.z; z++) {
+                let block = dim.getBlock(origin.add(x, y, z));
+                if (block.typeId == "minecraft:chest") {
+                    let comp = block.getComponent(server.BlockComponentTypes.Inventory) as server.BlockInventoryComponent;
+                    if (comp.container.emptySlotsCount == comp.container.size) {
+                        return origin.add(x, y, z);
+                    }
+                }
+            }
+        }
+    }
+    return null;
 }
 
 // TODO: Account for where the towers in the maze are, because they remove chests.
