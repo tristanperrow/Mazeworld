@@ -37,7 +37,7 @@ let itemOptions: Items.ItemOptions = {
 };
 
 /** List of all current players in a game  */
-export let currentPlayers: server.Player[] = [];
+export let currentPlayers = new Map<String, server.Player>();
 
 /** Amount of times the water zone has spread this game */
 export let stormCount: number = server.world.getDynamicProperty("stormCount") as number || 0;
@@ -189,11 +189,32 @@ function getReadyPlayers() {
 }
 
 /**
+ * Checks if player is in game
+ * 
+ * @param player The player to check for.
+ * 
+ * @returns true if the player is in the game, false if not
+ */
+function isPlayerInGame(player: server.Player) {
+    return currentPlayers.has(player.name);
+}
+
+/**
+ * Removes a player from the game
+ * 
+ * @param player The player to remove from the game.
+ */
+function removePlayerFromGame(player: server.Player) {
+    currentPlayers.delete(player.name);
+}
+
+/**
  * Checks if the game is active.
  * 
  * @returns true if the game is active, false if not.
  */
 function isGameActive(): boolean {
+    //return currentPlayers.size > 0;
     return server.world.scoreboard.getObjective("currentgame") != null;
 }
 
@@ -318,7 +339,9 @@ async function startGame() {
     dim.runCommand(`scoreboard players add Time currentgame 0`);
     // tp to maze
     let playerList = getReadyPlayers();
-    currentPlayers = playerList;
+    for (const curPlayer of playerList) {
+        currentPlayers.set(curPlayer.name, curPlayer);
+    }
     for (let x = 0; x < playerList.length; x++) {
         let player = playerList[x];
 
@@ -346,17 +369,17 @@ function tryGameOver(): boolean {
     let numPlayersRemaining = 0;
     let remainingPlayer = null;
     // get remaining players
-    for (const player of currentPlayers) {
-        if (server.world.getPlayers({ name: player.name })[0] && server.world.scoreboard.getObjective("currentgame").getScore(player) == 1) {
+    currentPlayers.forEach((player) => {
+        if (server.world.getPlayers({ name: player.name })[0]) {
             numPlayersRemaining++;
             remainingPlayer = player;
         }
-    }
+    })
 
     // game is over if only one person is left alive.
     if (numPlayersRemaining <= 1) {
         // teleport all participants back to spawn
-        for (const plr of currentPlayers) {
+        currentPlayers.forEach((plr) => {
             // teleport player to world spawn
             plr.teleport(server.world.getDefaultSpawnLocation());
             // get rid of the camera lock
@@ -366,7 +389,7 @@ function tryGameOver(): boolean {
             // add win to player if they won
             if (remainingPlayer.name == plr.name)
                 PlayerUtils.AddWin(plr);
-        }
+        })
         // remove current game objective
         server.world.scoreboard.removeObjective("currentgame");
         // reset water zone
@@ -435,6 +458,29 @@ server.system.runInterval(() => {
  * Events 
  *  
  * */
+
+/* check for player kills/deaths */
+server.world.afterEvents.entityDie.subscribe((event) => {
+    let deadEntity = event.deadEntity;
+    // check if it was a player that died
+    if (deadEntity.typeId != "minecraft:player") return;
+    let deadPlayer = deadEntity as server.Player;
+    // check if player is in the game
+    if (!isPlayerInGame(deadPlayer)) return;
+    // add death to player
+    PlayerUtils.SetPlayerStat(deadPlayer, PlayerStatType.deaths, PlayerUtils.GetPlayerStat(deadPlayer, PlayerStatType.deaths) as number + 1);
+    // remove player from the game
+    removePlayerFromGame(deadPlayer);
+    let killingEntity = event.damageSource.damagingEntity;
+    // check if it was a player that killed
+    if (!killingEntity) return;
+    if (killingEntity.typeId != "minecraft:player") return;
+    let killingPlayer = killingEntity as server.Player;
+    // check if killing player was in the game
+    if (!isPlayerInGame(killingPlayer)) return;
+    // add kill to player
+    PlayerUtils.SetPlayerStat(killingPlayer, PlayerStatType.kills, PlayerUtils.GetPlayerStat(killingPlayer, PlayerStatType.kills) as number + 1);
+})
 
 /* when player joins, update adjMinMazeSize and playerCount */
 server.world.afterEvents.playerJoin.subscribe((event) => {
@@ -525,6 +571,21 @@ server.system.afterEvents.scriptEventReceive.subscribe((event) => {
         let ldb = PlayerUtils.GetSpecificLeaderboard(server.world.getPlayers(), PlayerStatType.wins)
         server.world.sendMessage(`${PlayerStatType.wins} leaderboard`);
         ldb.forEach((v, k) => {
+            if (!v) return;
+            server.world.sendMessage(` - ${k.name} | ${v}`);
+        })
+
+        let ldb2 = PlayerUtils.GetSpecificLeaderboard(server.world.getPlayers(), PlayerStatType.kills)
+        server.world.sendMessage(`${PlayerStatType.kills} leaderboard`);
+        ldb2.forEach((v, k) => {
+            if (!v) return;
+            server.world.sendMessage(` - ${k.name} | ${v}`);
+        })
+
+        let ldb3 = PlayerUtils.GetSpecificLeaderboard(server.world.getPlayers(), PlayerStatType.deaths)
+        server.world.sendMessage(`${PlayerStatType.deaths} leaderboard`);
+        ldb3.forEach((v, k) => {
+            if (!v) return;
             server.world.sendMessage(` - ${k.name} | ${v}`);
         })
     } else {
