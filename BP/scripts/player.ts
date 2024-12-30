@@ -1,6 +1,7 @@
 import * as server from "@minecraft/server"
 
 export class PlayerUtils {
+    /* STATS */
 
     /**
      * Gets all statistics of a player as an object.
@@ -76,6 +77,14 @@ export class PlayerUtils {
             leaderboard.set(player, PlayerUtils.GetPlayerStat(player, stat));
         }
         return leaderboard;
+    }
+
+    /* HELPER FUNCTIONS */
+
+    static DisplayTextToPlayers(players: Map<String, server.Player>, text: string) {
+        players.forEach((v, k) => {
+            v.onScreenDisplay.setActionBar(text);
+        })
     }
 
 }

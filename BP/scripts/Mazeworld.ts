@@ -153,10 +153,10 @@ function togglePlayerReady(player: server.Player) {
     let currStatus = player.hasTag("ready");
     if (!currStatus) {
         player.addTag("ready");
-        player.sendMessage(`You are ready to play!`)
+        player.onScreenDisplay.setActionBar(`You are ready to play!`)
     } else {
         player.removeTag("ready")
-        player.sendMessage(`You are no longer ready.`)
+        player.onScreenDisplay.setActionBar(`You are no longer ready.`)
     }
 }
 
@@ -172,10 +172,10 @@ function setPlayerReady(player: server.Player, ready: boolean = false) {
         // Not changing status, don't send a message
     } else if (currStatus && !ready) {
         // No longer ready, send a message
-        player.sendMessage(`You are no longer ready.`);
+        player.onScreenDisplay.setActionBar(`You are no longer ready.`);
     } else if (!currStatus && ready) {
         // Is now ready, send a message
-        player.sendMessage(`You are ready to play!`);
+        player.onScreenDisplay.setActionBar(`You are ready to play!`);
     }
 }
 
@@ -377,7 +377,7 @@ function tryGameOver(): boolean {
     })
 
     // game is over if only one person is left alive.
-    if (numPlayersRemaining <= 1) {
+    if (numPlayersRemaining <= 0) {
         // teleport all participants back to spawn
         currentPlayers.forEach((plr) => {
             // teleport player to world spawn
@@ -441,12 +441,12 @@ server.system.runInterval(() => {
         // storm
         let nextStormAdvance = stormNextTime(stormCount);
         if (time == nextStormAdvance - 30) {
-            server.world.sendMessage(`The maze is §9§lflooding§r in 30 seconds...`);
+            PlayerUtils.DisplayTextToPlayers(currentPlayers, `The maze is §9§lflooding§r in 30 seconds...`);
         } else if (time >= nextStormAdvance && mazeGenerationOptions.waterZone == "on") {
             setStormCount(stormCount + 1);
             MazeGeneration.generateWaterZone(mazeGenerationOptions.mazeSize, stormCount).then((filled) => {
                 if (filled) {
-                    server.world.sendMessage(`The maze is §9§lflooding§r...`);
+                    PlayerUtils.DisplayTextToPlayers(currentPlayers, `The maze is §9§lflooding§r...`);
                 }
             });
         }
