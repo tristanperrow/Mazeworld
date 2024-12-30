@@ -8,4 +8,4 @@
 ### Credits
 
 - BongioviROCKS ()
-- Nanopoison (@tristanperrow)
+- Nanopoison ()
