@@ -359,7 +359,10 @@ function shootGlock(event: server.ItemUseAfterEvent): void {
             let entity = entities[i].entity;
             if (entity.nameTag != player.name) {
                 entity.applyKnockback(pvd.x, pvd.z, 1, 0.25);
-                entity.applyDamage(gun_damage);
+                entity.applyDamage(gun_damage, {
+                    cause: server.EntityDamageCause.projectile,
+                    damagingEntity: player,
+                });
             }
         }
     })
