@@ -3,6 +3,7 @@ import { settingPresetsData } from "./settings.js"
 import * as MazeGeneration from "./maze_generation"
 import * as Items from "./items"
 import { clamp } from "./math"
+import { PlayerUtils, PlayerStatType } from "./player"
 
 /*
  *
@@ -343,10 +344,13 @@ async function startGame() {
  */
 function tryGameOver(): boolean {
     let numPlayersRemaining = 0;
+    let remainingPlayer = null;
     // get remaining players
     for (const player of currentPlayers) {
-        if (server.world.getPlayers({ name: player.name })[0] && server.world.scoreboard.getObjective("currentgame").getScore(player) == 1)
+        if (server.world.getPlayers({ name: player.name })[0] && server.world.scoreboard.getObjective("currentgame").getScore(player) == 1) {
             numPlayersRemaining++;
+            remainingPlayer = player;
+        }
     }
 
     // game is over if only one person is left alive.
@@ -359,6 +363,9 @@ function tryGameOver(): boolean {
             plr.camera.clear();
             // clear the inventory of the player
             clearInventory(plr);
+            // add win to player if they won
+            if (remainingPlayer.name == plr.name)
+                PlayerUtils.AddWin(plr);
         }
         // remove current game objective
         server.world.scoreboard.removeObjective("currentgame");
@@ -514,6 +521,12 @@ server.system.afterEvents.scriptEventReceive.subscribe((event) => {
         server.world.sendMessage(`Set ${setting} to ${option}`);
     } else if (event.id === "mw:test") {
         server.world.sendMessage(`test 5.0.4`);
+    } else if (event.id === "mw:leaderTest") {
+        let ldb = PlayerUtils.GetSpecificLeaderboard(server.world.getPlayers(), PlayerStatType.wins)
+        server.world.sendMessage(`${PlayerStatType.wins} leaderboard`);
+        ldb.forEach((v, k) => {
+            server.world.sendMessage(` - ${k.name} | ${v}`);
+        })
     } else {
         console.warn(`Unknown scriptevent ${event.id}.`);
     }
