@@ -11,9 +11,9 @@ export class PlayerUtils {
      */
     static GetPlayerStatistics(player: server.Player) {
         let stats: PlayerStats;
-        stats.wins = player.getDynamicProperty("mw:wins") as number || 0;
-        stats.kills = player.getDynamicProperty("mw:kills") as number || 0;
-        stats.deaths = player.getDynamicProperty("mw:deaths") as number || 0;
+        stats.wins = server.world.getDynamicProperty(`${player.name}:mw:wins`) as number || 0;
+        stats.kills = server.world.getDynamicProperty(`${player.name}:mw:kills`) as number || 0;
+        stats.deaths = server.world.getDynamicProperty(`${player.name}:mw:deaths`) as number || 0;
         return stats || null;
     }
 
@@ -26,7 +26,7 @@ export class PlayerUtils {
      * @returns The requested stat, or null.
      */
     static GetPlayerStat(player: server.Player, stat: string | PlayerStatType) {
-        return player.getDynamicProperty(`mw:${stat}`) || null;
+        return server.world.getDynamicProperty(`${player.name}:mw:${stat}`) || null;
     }
 
     /**
@@ -36,9 +36,9 @@ export class PlayerUtils {
      * @param stats The new statistics to give the player.
      */
     static SetPlayerStatistics(player: server.Player, stats: PlayerStats) {
-        player.setDynamicProperty("mw:wins", stats.wins || 0);
-        player.setDynamicProperty("mw:kills", stats.kills || 0);
-        player.setDynamicProperty("mw:deaths", stats.deaths || 0);
+        server.world.setDynamicProperty(`${player.name}:mw:wins`, stats.wins || 0);
+        server.world.setDynamicProperty(`${player.name}:mw:kills`, stats.kills || 0);
+        server.world.setDynamicProperty(`${player.name}:mw:deaths`, stats.deaths || 0);
     }
 
     /**
@@ -49,8 +49,7 @@ export class PlayerUtils {
      * @param value The value to set the statistic to.
      */
     static SetPlayerStat(player: server.Player, stat: string | PlayerStatType, value: string | number | boolean | server.Vector3) {
-        // @ts-ignore
-        player.setDynamicProperty(`mw:${stat}`, value);
+        server.world.setDynamicProperty(`${player.name}:mw:${stat}`, value);
     }
 
     /**
@@ -59,8 +58,8 @@ export class PlayerUtils {
      * @param player The player to add a win to.
      */
     static AddWin(player: server.Player) {
-        let wins = player.getDynamicProperty("mw:wins") as number || 0;
-        player.setDynamicProperty("mw:wins", wins + 1);
+        let wins = server.world.getDynamicProperty(`${player.name}:mw:wins`) as number || 0;
+        server.world.setDynamicProperty(`${player.name}:mw:wins`, wins + 1);
     }
 
     /**
