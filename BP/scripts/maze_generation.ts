@@ -552,6 +552,9 @@ async function placeTower(x: number, z: number, tower: string, towerDifficulty: 
             CURRENT_CHESTS[`LARGE_TOWER_CHESTS`].push(loc);
         })
     }
+
+    await spawnEntitiesInTowers(dimensions, startPos)
+
     CURRENT_TOWERS.push(
         bbox(
             startPos.add(0, dimensions.y / 2, 0),
@@ -603,11 +606,33 @@ async function findTowerChest(dimensions: Vec3, origin: Vec3) {
                     if (comp.container.emptySlotsCount == comp.container.size) {
                         return origin.add(x, y, z);
                     }
+                } else if (block.typeId == "bridge:chest_indicator_block") {
+                    return origin.add(x, y, z);
                 }
             }
         }
     }
     return null;
+}
+
+/**
+ * Spawns the entities in a tower.
+ * 
+ * @param dimensions The dimensions of the tower
+ * @param origin The origin of the tower
+ */
+async function spawnEntitiesInTowers(dimensions: Vec3, origin: Vec3) {
+    for (let x = 0; x < dimensions.x; x++) {
+        for (let y = 0; y < dimensions.y; y++) {
+            for (let z = 0; z < dimensions.z; z++) {
+                let block = dim.getBlock(origin.add(x, y, z));
+                if (block.typeId == "bridge:mob_indicator_block") {
+                    dim.spawnEntity("minecraft:spider", origin.add(x, y, z));
+                    dim.setBlockType(origin.add(x, y, z), "minecraft:air");
+                }
+            }
+        }
+    }
 }
 
 // TODO: Account for where the towers in the maze are, because they remove chests.
@@ -649,6 +674,8 @@ async function fillChests(lootQuality: string): Promise<void> {
                 break
             case "SMALL_TOWER_CHESTS":
                 for (const chestLoc of chestType) {
+                    let b = dim.getBlock(chestLoc);
+                    if (dim.getBlock(chestLoc).typeId == "bridge:chest_indicator_block") dim.setBlockPermutation(chestLoc, server.BlockPermutation.resolve("minecraft:chest", { "minecraft:cardinal_direction": b.permutation.getState("minecraft:cardinal_direction") }));
                     let chest = dim.getBlock(chestLoc).getComponent(server.BlockComponentTypes.Inventory) as server.BlockInventoryComponent;
                     if (!chest) {   // temporary fix for chest tower overlap
                         continue;
@@ -661,6 +688,8 @@ async function fillChests(lootQuality: string): Promise<void> {
                 break
             case "LARGE_TOWER_CHESTS":
                 for (const chestLoc of chestType) {
+                    let b = dim.getBlock(chestLoc);
+                    if (dim.getBlock(chestLoc).typeId == "bridge:chest_indicator_block") dim.setBlockPermutation(chestLoc, server.BlockPermutation.resolve("minecraft:chest", { "minecraft:cardinal_direction": b.permutation.getState("minecraft:cardinal_direction") }));
                     let chest = dim.getBlock(chestLoc).getComponent(server.BlockComponentTypes.Inventory) as server.BlockInventoryComponent;
                     if (!chest) {   // temporary fix for chest tower overlap
                         continue;
