@@ -1,0 +1,8 @@
+{
+	"bridge:chest_indicator_block": {
+		"sound": "stone"
+	},
+	"bridge:mob_indicator_block": {
+		"sound": "stone"
+	}
+}

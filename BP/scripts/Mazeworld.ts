@@ -337,6 +337,8 @@ function tryGameOver(): boolean {
         setStormCount(0);
         // remove all currentPlayers
         currentPlayers.clear();
+        // kill all entites besides players
+        dim.runCommand("kill @e[type=!player]")
 
         return true;
     }
