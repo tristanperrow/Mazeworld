@@ -625,14 +625,38 @@ async function spawnEntitiesInTowers(dimensions: Vec3, origin: Vec3) {
     for (let x = 0; x < dimensions.x; x++) {
         for (let y = 0; y < dimensions.y; y++) {
             for (let z = 0; z < dimensions.z; z++) {
-                let block = dim.getBlock(origin.add(x, y, z));
-                if (block.typeId == "bridge:mob_indicator_block") {
-                    dim.spawnEntity("minecraft:spider", origin.add(x, y, z));
-                    dim.setBlockType(origin.add(x, y, z), "minecraft:air");
+                let loc = origin.add(x, y, z);
+                let block = dim.getBlock(loc);
+                if (block.hasTag("text_sign")) {
+                    getSignInfo(loc);
                 }
             }
         }
     }
+}
+
+/**
+ * Spawns mobs based on sign data.
+ * 
+ * @param location The location of the sign
+ */
+function getSignInfo(location: Vec3) {
+    let block = dim.getBlock(location);
+    let signComp = block.getComponent(server.BlockComponentTypes.Sign) as server.BlockSignComponent;
+    if (!signComp) return;
+    let lines = signComp.getText().split("\n");
+    if (lines[0] != `[mob]`) return;
+    let amount = parseInt(lines[2]) || 1;
+    let nameTag = lines[3] || "";
+    try {
+        for (let i = 0; i < amount; i++) {
+            let e = dim.spawnEntity(lines[1], location);
+            e.nameTag = nameTag;
+        }
+    } catch (e) {
+        console.warn(`Incorrect entity identifier on [mob] spawner.`);
+    }
+    block.setType("minecraft:air");
 }
 
 // TODO: Account for where the towers in the maze are, because they remove chests.
